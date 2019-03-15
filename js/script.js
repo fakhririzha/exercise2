@@ -1,26 +1,37 @@
 var d = document;
 var currentInput = "";
 var resultGenerated = false;
+var operatorClicked = false;
+var btnClicked = false;
 
 var inputBox = d.getElementById("user-input"),
   numberInput = Array.from(d.getElementsByClassName("number")),
   operatorInput = Array.from(d.getElementsByClassName("operator")),
   test = d.getElementById("test");
 
+inputBox.innerHTML = "0";
+
 numberInput.forEach(item => {
   item.addEventListener('click', () => {
-
+    if (currentInput == "0") {
+      currentInput = "";
+    }
     currentInput += item.childNodes[0].innerHTML;
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
+    btnClicked = true;
 
   });
 });
 
 operatorInput.forEach(item => {
   item.addEventListener('click', () => {
-
+    if (currentInput == "0") {
+      currentInput = "";
+    }
     currentInput += item.childNodes[0].innerHTML;
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
+    operatorClicked = true;
+    btnClicked = true;
 
   });
 })
@@ -33,59 +44,73 @@ document.addEventListener("keydown", (event) => {
     if (currentInput.length == 0) {
       currentInput = "0";
     }
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
+  }
+  else if (k == ".") {
+    if (currentInput == "0") {
+
+      currentInput = "";
+      currentInput += k.toString();
+      inputBox.innerHTML += currentInput;
+
+    } else {
+
+      currentInput = currentInput + k.toString();
+      inputBox.innerHTML = "" + currentInput;
+
+    }
   }
   else if (Number.isInteger(parseInt(k))) {
 
-    if (!resultGenerated) {
+    // if (!resultGenerated) {
 
-      if (currentInput == "0") {
+    if (currentInput == "0") {
 
-        numberKey = parseInt(k);
-        currentInput = "";
-        currentInput = currentInput + numberKey.toString();
-        inputBox.innerText = "" + currentInput;
-
-      } else {
-
-        numberKey = parseInt(k);
-        currentInput = currentInput + numberKey.toString();
-        inputBox.innerText = "" + currentInput;
-
-      }
-    } else {
-      resultGenerated = false;
+      numberKey = parseInt(k);
       currentInput = "";
+      currentInput = currentInput + numberKey.toString();
+      inputBox.innerHTML = "" + currentInput;
+
+    } else {
+
       numberKey = parseInt(k);
       currentInput = currentInput + numberKey.toString();
-      inputBox.innerText = "" + currentInput;
+      inputBox.innerHTML = "" + currentInput;
+
     }
+    // } else {
+    //   resultGenerated = false;
+    //   currentInput = "";
+    //   numberKey = parseInt(k);
+    //   currentInput = currentInput + numberKey.toString();
+    //   inputBox.innerHTML = "" + currentInput;
+    // }
 
   } else if (k == "Delete") {
 
     currentInput = "0";
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
   } else if (k == "+") {
 
     currentInput = currentInput + k.toString();
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
   } else if (k == "-") {
 
     currentInput = currentInput + k.toString();
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
   } else if (k == "*") {
 
     currentInput = currentInput + k.toString();
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
   } else if (k == "/") {
 
     currentInput = currentInput + k.toString();
-    inputBox.innerText = "" + currentInput;
+    inputBox.innerHTML = "" + currentInput;
 
   } else if (k == "Enter") {
 
@@ -100,7 +125,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-
 function generateHasil(input) {
 
   var i,
@@ -113,46 +137,74 @@ function generateHasil(input) {
   }
   var arrInput = Array.from(input);
 
-  for (i = 0; i < arrInput.length; i++) {
+  currentInput = eval(input).toString();
+  inputBox.innerHTML = currentInput;
 
-    char = arrInput[i];
-    if (!Number.isInteger(parseInt(arrInput[i]))) {
-      operatorIndex = arrInput.indexOf(char);
-    }
+  // for (i = 0; i < arrInput.length; i++) {
 
-  }
+  //   char = arrInput[i];
+  //   if (char == "+") {
+  //     operatorIndex = arrInput.indexOf(char);
+  //   } else if (char == "-") {
+  //     operatorIndex = arrInput.indexOf(char);
+  //   } else if (char == "*") {
+  //     operatorIndex = arrInput.indexOf(char);
+  //   } else if (char == "/") {
+  //     operatorIndex = arrInput.indexOf(char);
+  //   }
 
-  firstNum = input.substr(0, input.length - operatorIndex);
-  secondNum = input.substr(operatorIndex + 1);
-  operator = input[operatorIndex];
+  // }
 
-  if (operator == "+") {
+  // firstNum = input.substr(0, operatorIndex);
+  // if (Number.isFinite(parseFloat(firstNum)) && Number.isSafeInteger(parseFloat(firstNum))) {
+  //   firstNum = parseInt(firstNum);
+  // } else {
+  //   firstNum = parseFloat(firstNum);
+  // }
 
-    currentInput = parseInt(firstNum) + parseInt(secondNum);
-    currentInput = currentInput.toString();
-    inputBox.innerText = "" + currentInput;
+  // secondNum = input.substr(operatorIndex + 1);
+  // if (Number.isFinite(parseFloat(secondNum)) && Number.isSafeInteger(parseFloat(secondNum))) {
+  //   secondNum = parseInt(secondNum);
+  // } else {
+  //   secondNum = parseFloat(secondNum);
+  // }
 
-  } else if (operator == "-") {
+  // operator = input[operatorIndex];
 
-    currentInput = parseInt(firstNum) - parseInt(secondNum);
-    currentInput = currentInput.toString();
-    inputBox.innerText = "" + currentInput;
+  // console.log(firstNum, secondNum, operator, input, input.length, operatorIndex, input.length - operatorIndex);
+
+  // if (operator == "+") {
+
+  //   currentInput = firstNum + secondNum;
+  //   currentInput = currentInput.toString();
+  //   inputBox.innerHTML = "";
+  //   inputBox.innerHTML = "" + currentInput;
+
+  // } else if (operator == "-") {
+
+  //   currentInput = firstNum - secondNum;
+  //   currentInput = currentInput.toString();
+  //   inputBox.innerHTML = "";
+  //   inputBox.innerHTML = "" + currentInput;
 
 
-  } else if (operator == "*") {
+  // } else if (operator == "*") {
 
-    currentInput = parseInt(firstNum) * parseInt(secondNum);
-    currentInput = currentInput.toString();
-    inputBox.innerText = "" + currentInput;
+  //   currentInput = firstNum * secondNum;;
+  //   currentInput = currentInput.toString();
+  //   inputBox.innerHTML = "";
+  //   inputBox.innerHTML = "" + currentInput;
 
 
-  } else if (operator == "/") {
+  // } else if (operator == "/") {
 
-    currentInput = parseInt(firstNum) / parseInt(secondNum);
-    currentInput = currentInput.toString();
-    inputBox.innerText = "" + currentInput;
+  //   currentInput = firstNum / secondNum;;
+  //   currentInput = currentInput.toString();
+  //   inputBox.innerHTML = "";
+  //   inputBox.innerHTML = "" + currentInput;
 
-  }
+  // }
 
-  resultGenerated = true;
+  // resultGenerated = true;
+  // operatorClicked = false;
 }
