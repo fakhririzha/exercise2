@@ -1,7 +1,7 @@
 # Fakhri Rizha Ananda
  JS Calculator - Exercise 2
 
- `Hactiv8`
+ `Hacktiv8`
 
  # Table Of Contents
  - [Usage](#usage)
