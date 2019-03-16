@@ -41,7 +41,7 @@ helperInput.forEach(item => {
 
 d.addEventListener("keydown", (event) => {
   var k = event.key;
-  if (k == "Backspace" && ()) {
+  if (k == "Backspace") {
 
     currentInput = currentInput.substr(0, currentInput.length - 1);
     if (currentInput.length == 0) {

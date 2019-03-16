@@ -12,7 +12,7 @@ button:hover {
 
 /* CALCULATOR BODY */
 
-#calculator {
+.calculator {
   margin-top: 10vh;
   margin-bottom: 10vh;
   width: 100%;
@@ -34,14 +34,20 @@ button:hover {
   overflow-y: hidden;
 }
 
-#user-input {
+.display-screen p {
   text-align: right;
   font-size: 3rem;
   padding-right: 16px;
   overflow-y: hidden;
+  background-color: #e0e0e0;
 }
 
-#user-input::-webkit-scrollbar {
+#user-input {
+  margin-bottom: 0;
+  height: 100%;
+}
+
+.display-screen p::-webkit-scrollbar {
   width: 0px;
 }
 
@@ -61,10 +67,41 @@ button:hover {
   height: 100%;
   width: 100%;
   cursor: pointer;
+  padding: 0;
+  border: 1px solid #9e9e9e;
+  background-color: #ffffff;
+}
+
+.number button:hover,
+.operator button:hover,
+.helper button:hover {
+  background-color: #e0e0e0;
+  transition: ease-in 0.2s;
+}
+
+.operator button {
+  background-color: #ffeb3b;
+}
+
+.operator button:hover {
+  background-color: #f9a825;
+  transition: ease-in 0.2s;
 }
 
 .helper.c button {
   color: #ff9800;
+}
+
+.helper.result button,
+.helper.ac button {
+  background-color: #ff9800;
+  color: #ffffff;
+}
+
+.helper.result button:hover,
+.helper.ac button:hover {
+  background-color: #ef6c00;
+  transition: ease-in 0.2s;
 }
 
 /* =============================================================== */
