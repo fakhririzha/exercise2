@@ -1,14 +1,22 @@
 /* RESET CSS */
 
+body {
+  font-family: 'Sniglet', 'cursive';
+}
+
 button:hover {
   border: none;
 }
 
+/* =============================================================== */
+
 /* CALCULATOR BODY */
 
 #calculator {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
   width: 100%;
-  height: 100vh;
+  height: 80vh;
 }
 
 .main-body {
@@ -24,7 +32,6 @@ button:hover {
   margin: 0.5rem;
   box-sizing: border-box;
   overflow-y: hidden;
-  text-overflow: clip;
 }
 
 #user-input {
@@ -38,36 +45,31 @@ button:hover {
   width: 0px;
 }
 
-.number {
-  height: 7rem;
+.number,
+.operator,
+.helper {
+  height: 5.28rem;
   text-align: center;
   padding-left: 0;
   padding-right: 0;
+  font-size: 1.75rem;
 }
 
-.number button {
+.number button,
+.operator button,
+.helper button {
   height: 100%;
   width: 100%;
   cursor: pointer;
 }
 
-/* .number {
-  padding-left: 0;
-  padding-right: 0;
-} */
-
-.operator {
-  height: 7rem;
-  text-align: center;
-  padding-left: 0;
-  padding-right: 0;
+.helper.c button {
+  color: #ff9800;
 }
 
-.operator button {
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-}
+/* =============================================================== */
+
+/* UTILITIES */
 
 .remove-padding {
   padding-left: 0;
@@ -78,6 +80,10 @@ button:hover {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
+
+/* =============================================================== */
+
+/* RESPONSIVE UTILITES */
 
 @media (max-width: 575px) {}
 

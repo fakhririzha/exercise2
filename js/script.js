@@ -1,211 +1,100 @@
 var d = document;
-var result = 0;
 var currentInput = "";
-var keyPressed = false;
-var btnPressed = false;
-var resultGenerated = false;
+
+function ConcatIt(element1, element2) {
+  element1 = ArrayIt(element1)
+  return element1.concat(ArrayIt(element2));
+}
+
+function ArrayIt(element) {
+  return Array.from(d.getElementsByClassName(element));
+}
 
 var inputBox = d.getElementById("user-input"),
-  numberInput = Array.from(d.getElementsByClassName("number-val")),
-  operatorInput = Array.from(d.getElementsByClassName("operator-sign")),
-  helperInput = Array.from(d.getElementsByClassName("helper"));
+  btnInput = ConcatIt("number", "operator"),
+  helperInput = ArrayIt("helper");
 
 inputBox.innerHTML = "0";
 
-numberInput.forEach(item => {
+btnInput.forEach(item => {
   item.addEventListener('click', () => {
-
-    // if (keyPressed && btnPressed && resultGenerated == false) {
-    //   return;
-    // }
-
-    // console.log("Number Input Triggered");
-    btnPressed = true;
 
     if (currentInput == "0") {
       currentInput = "";
     }
-    setNewInput(item.getAttribute("aria-valuetext"));
-    // console.log("Button Props: " + item.getAttribute("aria-valuetext"));
-    // console.log("Current Input: " + currentInput);
+    setNewInput(item.childNodes[0].innerHTML);
 
   });
 });
 
-operatorInput.forEach(item => {
-  item.addEventListener('click', () => {
-
-    // console.log("Operator Input Triggered");
-
-    if (currentInput == "0") {
-      currentInput = "";
-    }
-    setNewInput(item.getAttribute("aria-valuetext"));
-
-    // console.log("Button Props: " + item.getAttribute("aria-valuetext"));
-    // console.log("Current Input: " + currentInput);
-
-  });
-})
-
 helperInput.forEach(item => {
   item.addEventListener('click', () => {
 
-    // console.log("Helper Input Triggered");
-    var trigger = "";
-
     if (currentInput == "0") {
       currentInput = "";
     }
-    trigger = item.getAttribute("aria-valuetext");
+    var trigger = item.childNodes[0].innerHTML;
     callTrigger(trigger);
 
   });
 });
 
-document.addEventListener("keydown", (event) => {
+d.addEventListener("keydown", (event) => {
   var k = event.key;
-  if (k == "Backspace") {
+  if (k == "Backspace" && ()) {
 
     currentInput = currentInput.substr(0, currentInput.length - 1);
     if (currentInput.length == 0) {
       currentInput = "0";
-    }
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k);
-
-
-  }
-  else if (k == ".") {
-    if (currentInput == "0") {
-
-      currentInput = "";
-      currentInput += k.toString();
-      inputBox.innerHTML += currentInput;
-
-    } else {
-
-      currentInput = currentInput + k.toString();
-      inputBox.innerHTML = "" + currentInput;
 
     }
-    // console.log("Current Input: " + currentInput);
-
-  }
-  else if (Number.isInteger(parseInt(k))) {
-
-    keyPressed = true;
-
-    if (currentInput == "0") {
-
-      currentInput = "";
-
-    }
-
-    numberKey = parseInt(k);
-    currentInput = currentInput + numberKey.toString();
-    inputBox.innerHTML = "" + currentInput;
-
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
-
+    applyDisplay(currentInput);
   }
   else if (k == "Delete") {
 
-    currentInput = "0";
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Current Input: " + currentInput);
+    applyDisplay(currentInput = "0");
 
   }
-  else if (k == "+") {
+  else if (k == "Enter") {
 
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+    event.preventDefault();
+    callTrigger("=");
 
-  }
-  else if (k == "-") {
+  } else if (Number.isInteger(parseInt(k)) || k == ".") {
 
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
-
-  }
-  else if (k == "*") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
-
-  }
-  else if (k == "%") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
-
-  }
-  else if (k == "/") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
-
-  }
-  else if (k == "Enter" || k == "=") {
-
-    // console.log(keyPressed, btnPressed);
-
-    if (keyPressed && btnPressed) {
-      document.removeEventListener("keydown", () => { });
+    if (currentInput == "0") {
+      currentInput = "";
     }
-    resultGenerated = true;
-    inputBox.innerHTML = "";
-    inputBox.innerHTML = generateHasil(currentInput);
-    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+    applyDisplay(currentInput = currentInput + parseInt(k).toString());
+  }
+  else if (k == "+" || k == "-" || k == "*" || k == "/" || k == "%") {
+
+    applyDisplay(currentInput = currentInput + k.toString());
 
   }
-  else if (k == "Shift") {
-
-    // DO NOTHING
-
+  else {
+    console.log(k);
   }
 });
 
-function generateHasil(input) {
+function callTrigger(key) {
+  if (key == "=") {
 
-  console.log('Generate Hasil Triggered');
-  if (input[0] == "0") {
-    input = input.substr(1);
-  }
+    currentInput = eval(currentInput).toString();
+    applyDisplay(currentInput);
 
-  result = eval(input);
-  currentInput = result.toString();
-  // console.log("Current Input: " + currentInput);
-
-  return result.toString();
-}
-
-function callTrigger(trigger) {
-  if (trigger == "=") {
-
-    inputBox.innerHTML = "";
-    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
-    inputBox.innerHTML = generateHasil(currentInput);
-
-  } else if (trigger == "AC") {
+  } else if (key == "AC") {
 
     currentInput = "0";
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
+    applyDisplay(currentInput);
 
-  } else if (trigger == "C") {
+  } else if (key == "C") {
 
     currentInput = currentInput.substr(0, currentInput.length - 1);
     if (currentInput.length == 0) {
       currentInput = "0";
     }
-    inputBox.innerHTML = "" + currentInput;
-    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
+    applyDisplay(currentInput);
 
   }
 }
@@ -216,7 +105,5 @@ function setNewInput(input) {
 }
 
 function applyDisplay(input) {
-  console.log(input);
-  resultGenerated = true;
   inputBox.innerHTML = input;
 }
