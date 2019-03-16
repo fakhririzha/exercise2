@@ -38,28 +38,29 @@ button:hover {
   width: 0px;
 }
 
-.number-box {
-  /* left: 0.5rem; */
-}
-
-.number-input {
-  height: 10rem;
+.number {
+  height: 7rem;
   text-align: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.number-input button {
+.number button {
   height: 100%;
   width: 100%;
   cursor: pointer;
 }
 
-.operator-box {
-  /* box-sizing: border-box;padding-right: 0.5rem; */
-}
+/* .number {
+  padding-left: 0;
+  padding-right: 0;
+} */
 
 .operator {
-  height: 7.5rem;
+  height: 7rem;
   text-align: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .operator button {

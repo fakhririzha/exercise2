@@ -1,40 +1,67 @@
 var d = document;
+var result = 0;
 var currentInput = "";
+var keyPressed = false;
+var btnPressed = false;
 var resultGenerated = false;
-var operatorClicked = false;
-var btnClicked = false;
 
 var inputBox = d.getElementById("user-input"),
-  numberInput = Array.from(d.getElementsByClassName("number")),
-  operatorInput = Array.from(d.getElementsByClassName("operator")),
-  test = d.getElementById("test");
+  numberInput = Array.from(d.getElementsByClassName("number-val")),
+  operatorInput = Array.from(d.getElementsByClassName("operator-sign")),
+  helperInput = Array.from(d.getElementsByClassName("helper"));
 
 inputBox.innerHTML = "0";
 
 numberInput.forEach(item => {
   item.addEventListener('click', () => {
+
+    // if (keyPressed && btnPressed && resultGenerated == false) {
+    //   return;
+    // }
+
+    // console.log("Number Input Triggered");
+    btnPressed = true;
+
     if (currentInput == "0") {
       currentInput = "";
     }
-    currentInput += item.childNodes[0].innerHTML;
-    inputBox.innerHTML = "" + currentInput;
-    btnClicked = true;
+    setNewInput(item.getAttribute("aria-valuetext"));
+    // console.log("Button Props: " + item.getAttribute("aria-valuetext"));
+    // console.log("Current Input: " + currentInput);
 
   });
 });
 
 operatorInput.forEach(item => {
   item.addEventListener('click', () => {
+
+    // console.log("Operator Input Triggered");
+
     if (currentInput == "0") {
       currentInput = "";
     }
-    currentInput += item.childNodes[0].innerHTML;
-    inputBox.innerHTML = "" + currentInput;
-    operatorClicked = true;
-    btnClicked = true;
+    setNewInput(item.getAttribute("aria-valuetext"));
+
+    // console.log("Button Props: " + item.getAttribute("aria-valuetext"));
+    // console.log("Current Input: " + currentInput);
 
   });
 })
+
+helperInput.forEach(item => {
+  item.addEventListener('click', () => {
+
+    // console.log("Helper Input Triggered");
+    var trigger = "";
+
+    if (currentInput == "0") {
+      currentInput = "";
+    }
+    trigger = item.getAttribute("aria-valuetext");
+    callTrigger(trigger);
+
+  });
+});
 
 document.addEventListener("keydown", (event) => {
   var k = event.key;
@@ -45,6 +72,8 @@ document.addEventListener("keydown", (event) => {
       currentInput = "0";
     }
     inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k);
+
 
   }
   else if (k == ".") {
@@ -60,64 +89,81 @@ document.addEventListener("keydown", (event) => {
       inputBox.innerHTML = "" + currentInput;
 
     }
+    // console.log("Current Input: " + currentInput);
+
   }
   else if (Number.isInteger(parseInt(k))) {
 
-    // if (!resultGenerated) {
+    keyPressed = true;
 
     if (currentInput == "0") {
 
-      numberKey = parseInt(k);
       currentInput = "";
-      currentInput = currentInput + numberKey.toString();
-      inputBox.innerHTML = "" + currentInput;
-
-    } else {
-
-      numberKey = parseInt(k);
-      currentInput = currentInput + numberKey.toString();
-      inputBox.innerHTML = "" + currentInput;
 
     }
-    // } else {
-    //   resultGenerated = false;
-    //   currentInput = "";
-    //   numberKey = parseInt(k);
-    //   currentInput = currentInput + numberKey.toString();
-    //   inputBox.innerHTML = "" + currentInput;
-    // }
 
-  } else if (k == "Delete") {
+    numberKey = parseInt(k);
+    currentInput = currentInput + numberKey.toString();
+    inputBox.innerHTML = "" + currentInput;
+
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "Delete") {
 
     currentInput = "0";
     inputBox.innerHTML = "" + currentInput;
-
-  } else if (k == "+") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-
-  } else if (k == "-") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-
-  } else if (k == "*") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-
-  } else if (k == "/") {
-
-    currentInput = currentInput + k.toString();
-    inputBox.innerHTML = "" + currentInput;
-
-  } else if (k == "Enter") {
-
-    generateHasil(currentInput);
+    // console.log("Current Input: " + currentInput);
 
   }
+  else if (k == "+") {
 
+    currentInput = currentInput + k.toString();
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "-") {
+
+    currentInput = currentInput + k.toString();
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "*") {
+
+    currentInput = currentInput + k.toString();
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "%") {
+
+    currentInput = currentInput + k.toString();
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "/") {
+
+    currentInput = currentInput + k.toString();
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
+  else if (k == "Enter" || k == "=") {
+
+    // console.log(keyPressed, btnPressed);
+
+    if (keyPressed && btnPressed) {
+      document.removeEventListener("keydown", () => { });
+    }
+    resultGenerated = true;
+    inputBox.innerHTML = "";
+    inputBox.innerHTML = generateHasil(currentInput);
+    // console.log("Key Pressed: " + k + ", Current Input: " + currentInput);
+
+  }
   else if (k == "Shift") {
 
     // DO NOTHING
@@ -127,84 +173,50 @@ document.addEventListener("keydown", (event) => {
 
 function generateHasil(input) {
 
-  var i,
-    firstNum = 0,
-    secondNum = 0,
-    operator = "",
-    operatorIndex = 0;
+  console.log('Generate Hasil Triggered');
   if (input[0] == "0") {
     input = input.substr(1);
   }
-  var arrInput = Array.from(input);
 
-  currentInput = eval(input).toString();
-  inputBox.innerHTML = currentInput;
+  result = eval(input);
+  currentInput = result.toString();
+  // console.log("Current Input: " + currentInput);
 
-  // for (i = 0; i < arrInput.length; i++) {
+  return result.toString();
+}
 
-  //   char = arrInput[i];
-  //   if (char == "+") {
-  //     operatorIndex = arrInput.indexOf(char);
-  //   } else if (char == "-") {
-  //     operatorIndex = arrInput.indexOf(char);
-  //   } else if (char == "*") {
-  //     operatorIndex = arrInput.indexOf(char);
-  //   } else if (char == "/") {
-  //     operatorIndex = arrInput.indexOf(char);
-  //   }
+function callTrigger(trigger) {
+  if (trigger == "=") {
 
-  // }
+    inputBox.innerHTML = "";
+    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
+    inputBox.innerHTML = generateHasil(currentInput);
 
-  // firstNum = input.substr(0, operatorIndex);
-  // if (Number.isFinite(parseFloat(firstNum)) && Number.isSafeInteger(parseFloat(firstNum))) {
-  //   firstNum = parseInt(firstNum);
-  // } else {
-  //   firstNum = parseFloat(firstNum);
-  // }
+  } else if (trigger == "AC") {
 
-  // secondNum = input.substr(operatorIndex + 1);
-  // if (Number.isFinite(parseFloat(secondNum)) && Number.isSafeInteger(parseFloat(secondNum))) {
-  //   secondNum = parseInt(secondNum);
-  // } else {
-  //   secondNum = parseFloat(secondNum);
-  // }
+    currentInput = "0";
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
 
-  // operator = input[operatorIndex];
+  } else if (trigger == "C") {
 
-  // console.log(firstNum, secondNum, operator, input, input.length, operatorIndex, input.length - operatorIndex);
+    currentInput = currentInput.substr(0, currentInput.length - 1);
+    if (currentInput.length == 0) {
+      currentInput = "0";
+    }
+    inputBox.innerHTML = "" + currentInput;
+    // console.log("Current Input(From callTrigger()): " + currentInput + ", Trigger Called: " + trigger);
 
-  // if (operator == "+") {
+  }
+}
 
-  //   currentInput = firstNum + secondNum;
-  //   currentInput = currentInput.toString();
-  //   inputBox.innerHTML = "";
-  //   inputBox.innerHTML = "" + currentInput;
+function setNewInput(input) {
+  currentInput += input;
+  applyDisplay(currentInput);
+}
 
-  // } else if (operator == "-") {
-
-  //   currentInput = firstNum - secondNum;
-  //   currentInput = currentInput.toString();
-  //   inputBox.innerHTML = "";
-  //   inputBox.innerHTML = "" + currentInput;
-
-
-  // } else if (operator == "*") {
-
-  //   currentInput = firstNum * secondNum;;
-  //   currentInput = currentInput.toString();
-  //   inputBox.innerHTML = "";
-  //   inputBox.innerHTML = "" + currentInput;
-
-
-  // } else if (operator == "/") {
-
-  //   currentInput = firstNum / secondNum;;
-  //   currentInput = currentInput.toString();
-  //   inputBox.innerHTML = "";
-  //   inputBox.innerHTML = "" + currentInput;
-
-  // }
-
-  // resultGenerated = true;
-  // operatorClicked = false;
+function applyDisplay(input) {
+  console.log(input);
+  resultGenerated = true;
+  inputBox.innerHTML = input;
 }
