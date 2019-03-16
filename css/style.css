@@ -2,6 +2,9 @@
 
 body {
   font-family: 'Sniglet', 'cursive';
+  background: #00c853;
+  background: -webkit-linear-gradient(to right, #00c853, #0091ea);
+  background: linear-gradient(to right, #00c853, #0091ea);
 }
 
 button:hover {
@@ -79,12 +82,17 @@ button:hover {
   transition: ease-in 0.2s;
 }
 
+.number.hover button {
+  background-color: #e0e0e0;
+  transition: ease-in 0.2s;
+}
+
 .operator button {
   background-color: #ffeb3b;
 }
 
 .operator button:hover {
-  background-color: #f9a825;
+  background-color: #fdd835;
   transition: ease-in 0.2s;
 }
 

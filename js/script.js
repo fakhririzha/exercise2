@@ -39,6 +39,12 @@ helperInput.forEach(item => {
   });
 });
 
+ArrayIt("number").forEach((item) => {
+  item.childNodes[0].addEventListener("onmouseover", () => {
+    console.log('hover');
+  });
+});
+
 d.addEventListener("keydown", (event) => {
   var k = event.key;
   if (k == "Backspace") {
