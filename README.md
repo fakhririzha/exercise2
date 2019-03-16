@@ -8,6 +8,7 @@
  - [Basic Usage](#basic-usage)
  - [Keyboard Shortcut](#keyboard-shorcut)
  - [Available Operators](#available-operators)
+ - [Preview](#preview)
 
  ## Usage
  - Keyboard
@@ -35,4 +36,6 @@
 - [ `/` ]
 - [ `%` ]
 
+
+## Preview
 ![preview](https://raw.githubusercontent.com/fakhririzha/exercise2/master/display.png)
